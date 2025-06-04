@@ -1,12 +1,44 @@
+# Maven
 target/
+!target/*.jar
+
+# IntelliJ
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Git
 .git
 .gitignore
-*.iml
-.idea/
-*.log
-*.md
+
+# Project files
 mvnw
 mvnw.cmd
 HELP.md
-.dockerignore
+
+# Render
 render.*
+
+# Local development
+*.properties
+*.yml
+*.yaml
+
+# Node modules (if any)
+node_modules/
+
+# Build output (handled by Maven)
+*.war
+*.zip
+*.tar
+*.gz
+
+# Environment files
+.env
+*.env
