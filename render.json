@@ -11,7 +11,7 @@
     },
     {
       "key": "DB_HOST",
-      "value": "rerover"
+      "value": "host.docker.internal"
     },
     {
       "key": "DB_PORT",
@@ -34,5 +34,6 @@
       "value": "8080"
     }
   ],
+  "healthCheckPath": "/actuator/health",
   "autoDeploy": true
 }
