@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReRover - LFS | Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/report-styles.css">
+    <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="components/header.css">
+    <link rel="stylesheet" href="components/footer.css">
+    <style>
+        /* FIXED Toggle Button Styles - Override any conflicting styles */
+        .toggle-buttons {
+            display: flex;
+            gap: 15px; /* Space between buttons */
+            justify-content: center;
+        }
+
+        .toggle-btn {
+            padding: 18px 50px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+            position: relative;
+            overflow: hidden;
+            min-width: 220px;
+            white-space: nowrap;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* INACTIVE state - BLACK background */
+        .toggle-btn {
+            background-color: #292A32 !important;
+            color: #FFFFFF !important;
+        }
+
+        /* ACTIVE state - GREEN background */
+        .toggle-btn.active {
+            background-color: #B9FF66 !important;
+            color: #000000 !important;
+            box-shadow: 0 4px 15px rgba(185, 255, 102, 0.4) !important;
+        }
+
+        /* Shimmer effect */
+        .toggle-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .toggle-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Hover effects */
+        .toggle-btn:not(.active):hover {
+            background-color: #1a1b21 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .toggle-btn.active:hover {
+            background-color: #a8e055 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(185, 255, 102, 0.4) !important;
+        }
+
+        /* Status indicator */
+        .status-indicator {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
+
+        .status-indicator.lost {
+            background-color: rgba(185, 255, 102, 0.2);
+            color: #000000;
+            border: 2px solid #B9FF66;
+        }
+
+        .status-indicator.found {
+            background-color: rgba(185, 255, 102, 0.2);
+            color: #000000;
+            border: 2px solid #B9FF66;
+        }
+
+        @media (max-width: 768px) {
+            .toggle-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .toggle-btn {
+                min-width: auto;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header"></div>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Report Type Toggle -->
+            <section class="report-toggle-section">
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" data-type="lost" id="lostBtn">
+                        Report Lost Item
+                    </button>
+                    <button class="toggle-btn" data-type="found" id="foundBtn">
+                        Report Found Item
+                    </button>
+                </div>
+            </section>
+
+            <!-- Status Indicator -->
+            <div class="status-indicator lost" id="statusIndicator">
+                📍 Currently reporting: <strong>LOST ITEM</strong>
+            </div>
+
+            <!-- Report Form -->
+            <section class="report-form-section">
+                <div class="form-container">
+                    <form id="reportForm" onsubmit="handleReportSubmit(event)">
+                        <div class="form-group">
+                            <label for="itemName">Name</label>
+                            <input type="text" id="itemName" name="itemName" placeholder="Name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="category" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="books">Books</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="documents">Documents</option>
+                                <option value="keys">Keys</option>
+                                <option value="bags">Bags</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" placeholder="Please provide a detailed description of the item..." rows="5" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location" id="locationLabel">Location</label>
+                            <input type="text" id="location" name="location" placeholder="Where was the item lost/found? (e.g., A1, 612)" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactInfo">Contact Information</label>
+                            <input type="email" id="contactInfo" name="contactInfo" placeholder="Student email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="itemImage">Image</label>
+                            <div class="file-upload-container">
+                                <input type="file" id="itemImage" name="itemImage" accept="image/*" onchange="handleFileSelect(event)">
+                                <button type="button" class="file-upload-btn" onclick="document.getElementById('itemImage').click()">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21,15 16,10 5,21"></polyline>
+                                    </svg>
+                                    Choose Image
+                                </button>
+                                <span class="file-name" id="fileName">No file selected</span>
+                            </div>
+                            <div class="image-preview" id="imagePreview"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateTime">Date & Time</label>
+                            <input type="datetime-local" id="dateTime" name="dateTime" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="additionalInfo">Additional Information</label>
+                            <textarea id="additionalInfo" name="additionalInfo" placeholder="Any additional details that might help..." rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <span class="submit-text">Submit Report</span>
+                            <div class="loading-spinner" style="display: none;">
+                                <div class="spinner"></div>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    
+    <script src="scripts/report-script.js"></script>
+    <script src="components/header-footer.js"></script>
+</body>
+</html>

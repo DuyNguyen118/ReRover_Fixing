@@ -1,0 +1,496 @@
+/* FIXED Report Toggle Section - Separated buttons with gap */
+.report-toggle-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.toggle-buttons {
+    display: flex;
+    gap: 15px; /* Added space between buttons */
+    border-radius: 15px;
+}
+
+.toggle-btn {
+    padding: 18px 50px; /* Made wider */
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Outfit', sans-serif;
+    position: relative;
+    overflow: hidden;
+    min-width: 220px; /* Wider buttons */
+    white-space: nowrap;
+    border-radius: 10px; /* Rounded corners for separated buttons */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for all buttons */
+}
+
+/* Default state - inactive buttons are black */
+.toggle-btn {
+    background: #292A32;
+    color: #FFFFFF;
+    border: none; /* No outline */
+}
+
+/* Active state - green without outline */
+.toggle-btn.active {
+    background: #B9FF66;
+    color: #000000;
+    border: none; /* No outline */
+    box-shadow: 0 4px 15px rgba(185, 255, 102, 0.4);
+}
+
+/* Newsletter-style hover effects */
+.toggle-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.toggle-btn:hover::before {
+    left: 100%;
+}
+
+/* Hover effects - similar to newsletter button */
+.toggle-btn:not(.active):hover {
+    background: #1a1b21; /* Darker black for inactive hover */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-btn.active:hover {
+    background: #a8e055; /* Darker green for active hover */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(185, 255, 102, 0.4);
+}
+
+/* Responsive Design for toggle buttons */
+@media (max-width: 768px) {
+    .toggle-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px; /* Wider on mobile too */
+    }
+
+    .toggle-btn {
+        padding: 15px 30px;
+        font-size: 14px;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .toggle-btn {
+        padding: 12px 20px;
+        font-size: 13px;
+    }
+}
+/* Form Section - keeping existing styles */
+.report-form-section {
+    display: flex;
+    justify-content: center;
+}
+
+.form-container {
+    background: #f8f8f8;
+    border-radius: 30px;
+    padding: 60px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #B9FF66, #292A32, #B9FF66);
+}
+
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #000000;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.form-group:focus-within label {
+    color: #B9FF66;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Outfit', sans-serif;
+    transition: all 0.3s ease;
+    background: #FFFFFF;
+    position: relative;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #B9FF66;
+    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.1);
+    transform: translateY(-2px);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #999;
+    transition: opacity 0.3s ease;
+}
+
+.form-group input:focus::placeholder,
+.form-group textarea:focus::placeholder {
+    opacity: 0.7;
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.form-group select:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23B9FF66' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* File Upload Styles */
+.file-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.file-upload-container input[type="file"] {
+    display: none;
+}
+
+.file-upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background: #292A32;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: fit-content;
+    position: relative;
+    overflow: hidden;
+}
+
+.file-upload-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.file-upload-btn:hover::before {
+    left: 100%;
+}
+
+.file-upload-btn:hover {
+    background: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.file-upload-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.file-upload-btn:hover svg {
+    transform: scale(1.1);
+}
+
+.file-name {
+    font-size: 14px;
+    color: #666;
+    margin-left: 10px;
+    padding: 8px 12px;
+    background: #FFFFFF;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.file-name:not(:empty) {
+    color: #B9FF66;
+    border-color: #B9FF66;
+    background: rgba(185, 255, 102, 0.1);
+}
+
+.image-preview {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.image-preview img:hover {
+    transform: scale(1.05);
+    border-color: #B9FF66;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 20px;
+    background: #292A32;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.submit-btn:hover::before {
+    left: 100%;
+}
+
+.submit-btn:hover {
+    background: #000000;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.submit-btn:disabled::before {
+    display: none;
+}
+
+.loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ffffff40;
+    border-top: 2px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Success and Error Messages */
+.success-message {
+    background: linear-gradient(135deg, #B9FF66, #a8e055);
+    color: #000000;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+    display: none;
+    box-shadow: 0 4px 15px rgba(185, 255, 102, 0.3);
+    border-left: 4px solid #8bc34a;
+    animation: slideIn 0.3s ease;
+}
+
+.error-message {
+    background: linear-gradient(135deg, #ff4444, #cc3333);
+    color: #FFFFFF;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+    display: none;
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+    border-left: 4px solid #d32f2f;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Field Error Styles */
+.field-error {
+    color: #ff4444;
+    font-size: 14px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    animation: shake 0.3s ease;
+}
+
+.field-error::before {
+    content: "⚠";
+    font-size: 12px;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .toggle-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px; /* Wider on mobile too */
+    }
+
+    .toggle-btn {
+        padding: 15px 30px;
+        font-size: 14px;
+        min-width: auto;
+    }
+
+    .toggle-btn:not(:last-child) {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .form-container {
+        padding: 40px 30px;
+        border-radius: 20px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .submit-btn {
+        padding: 16px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .toggle-btn {
+        padding: 12px 20px;
+        font-size: 13px;
+    }
+
+    .form-container {
+        padding: 30px 20px;
+    }
+
+    .file-upload-btn {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .image-preview img {
+        max-width: 150px;
+        max-height: 150px;
+    }
+}
+
+/* Focus Styles for Accessibility */
+.toggle-btn:focus,
+.file-upload-btn:focus,
+.submit-btn:focus {
+    outline: 3px solid #B9FF66;
+    outline-offset: 2px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(185, 255, 102, 0.3);
+}

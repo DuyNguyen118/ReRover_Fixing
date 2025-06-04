@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReRover - LFS | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/home-styles.css">
+    <link rel="stylesheet" href="components/header.css">
+    <link rel="stylesheet" href="components/footer.css">
+</head>
+<body>
+    <div id="header"></div>
+    <main class="main-content">
+        <div class="container">
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="search-container">
+                    <input type="text" placeholder="Searching..." class="search-input">
+                    <button class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Main Content Grid -->
+            <section class="content-grid">
+                <!-- Map Column -->
+                <div class="map-column">
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3222.9666321567056!2d106.8034112951382!3d10.877827078442524!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a415a9d221%3A0x550c2b41569376f9!2sInternational%20University%20-%20VNU-HCM!5e0!3m2!1sen!2s!4v1748924654786!5m2!1sen!2s" 
+                            width="100%" 
+                            height="300" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <div class="illustration-container">
+                        <img src="images/illustration.png" alt="Illustration" class="illustration-image">
+                    </div>
+                </div>
+
+                <!-- Lost Column -->
+                <div class="lost-items-container">
+                    <div class="column-header">
+                        <h2 class="column-title lost-title">Lost</h2>
+                        <div class="category-dropdown">
+                            <select class="category-select">
+                                <option value="">Category</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="books">Books</option>
+                                <option value="documents">Documents</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="items-list">
+                        <div class="item-card">                       
+                        </div>
+                        <div class="item-card">                      
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Found Column -->
+                <div class="found-items-container">
+                    <div class="column-header">
+                        <h2 class="column-title found-title">Found</h2>
+                        <div class="category-dropdown">
+                            <select class="category-select">
+                                <option value="">Category</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="books">Books</option>
+                                <option value="documents">Documents</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="items-list">
+                        <div class="item-card">                      
+                        </div>
+                        <div class="item-card">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Announcements Section -->
+            <section class="announcements-section">
+                <h2 class="section-title">Announcements</h2>
+                <div class="announcements-grid">
+                    <div class="announcement-card">
+                        <p>New Merit Points System! Earn points for returning items and helping others. Top contributors featured on our monthly leaderboard.</p>
+                        <a href="#" class="learn-more">Learn more →</a>
+                    </div>
+                    <div class="announcement-card">
+                        <p>System Update: Improved item matching algorithm! Better accuracy for connecting lost items with their owners, 40% faster returns.</p>
+                        <a href="#" class="learn-more">Learn more →</a>
+                    </div>
+                    <div class="announcement-card">
+                        <p>Our plan to expand to new universities! Stay tuned for updates about our growing community and exciting new features coming soon.</p>
+                        <a href="#" class="learn-more">Learn more →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQs Section -->
+            <section class="faqs-section">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="faqs-container">
+                    <div class="faq-item active" data-faq="1">
+                        <div class="faq-header">
+                            <span class="faq-number">01</span>
+                            <h3 class="faq-title">Who can use ReRover?</h3>
+                            <button class="faq-toggle">−</button>
+                        </div>
+                        <div class="faq-content">
+                            <p>Currently, ReRover is available to International University students, administrators, teachers, and staff members. We are actively planning to scale up our services to make them more accessible to a broader community in the future.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="2">
+                        <div class="faq-header">
+                            <span class="faq-number">02</span>
+                            <h3 class="faq-title">How do I report a lost item?</h3>
+                            <button class="faq-toggle">+</button>
+                        </div>
+                        <div class="faq-content">
+                            <p>To report a lost item, simply click the 'Report Lost Item' button on our homepage. Fill out the form with details about your item, including when and where you last saw it, along with any distinguishing features. You can also upload photos to help identify your item.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="3">
+                        <div class="faq-header">
+                            <span class="faq-number">03</span>
+                            <h3 class="faq-title">I found an item. What should I do?</h3>
+                            <button class="faq-toggle">+</button>
+                        </div>
+                        <div class="faq-content">
+                            <p>If you've found an item, use our 'Report Found Item' feature to submit the details. Provide accurate information about where and when you found it, and our system will help match it with any existing lost item reports.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="4">
+                        <div class="faq-header">
+                            <span class="faq-number">04</span>
+                            <h3 class="faq-title">How does the claiming process work?</h3>
+                            <button class="faq-toggle">+</button>
+                        </div>
+                        <div class="faq-content">
+                            <p>When you find a potential match, our system will link the lost and found items and notify both parties. Both users must confirm the match, after which an approval request is sent to administrators for final verification.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="5">
+                        <div class="faq-header">
+                            <span class="faq-number">05</span>
+                            <h3 class="faq-title">What happens after claim approval?</h3>
+                            <button class="faq-toggle">+</button>
+                        </div>
+                        <div class="faq-content">
+                            <p>If administrators approve the claim, both items are removed from public display and merit points are awarded to both users. If rejected, both items return to public display for potential matches. This system ensures fair and accurate item returns.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="6">
+                        <div class="faq-header">
+                            <span class="faq-number">06</span>
+                            <h3 class="faq-title">Is my information secure?</h3>
+                            <button class="faq-toggle">+</button>
+                        </div>
+                        <div class="faq-content">
+                            <p>Yes, we take data privacy seriously. Your personal information is encrypted and only used for the purpose of item recovery. We never share your details with third parties without your consent.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+
+    <!-- Claim Item Modal -->
+    <!-- In your claim modal -->
+    <div class="modal" id="claimModal">
+        <div class="modal-content">
+            <span class="close-claim-modal">&times;</span>
+            <h2>Claim Request</h2>
+            <p>Select one of your posts to link with this claim:</p>
+        
+            <!-- User's posts will be loaded here -->
+            <div id="userPostsList" class="user-posts-list">
+                <!-- Posts will be loaded here dynamically -->
+            </div>
+
+            <form id="claimForm">
+                <input type="hidden" id="selectedPostId" name="selectedPostId">
+                <div class="form-group">
+                    <label for="claimMessage">Message to the owner:</label>
+                    <textarea id="claimMessage" name="message" required placeholder="Please provide details about why you think this is your item..."></textarea>
+                </div>
+                <button type="submit" class="submit-claim-btn">Submit Claim</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Load header and footer components
+        async function loadComponents() {
+            try {
+                // Load header
+                const headerResponse = await fetch('components/header.html');
+                const headerHtml = await headerResponse.text();
+                document.getElementById('header').innerHTML = headerHtml;
+                
+                // Load footer
+                const footerResponse = await fetch('components/footer.html');
+                const footerHtml = await footerResponse.text();
+                document.getElementById('footer').innerHTML = footerHtml;
+                
+                console.log('Components loaded successfully');
+                
+            } catch (error) {
+                console.error('Error loading components:', error);
+            }
+        }
+        
+        // Load components when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadComponents);
+        } else {
+            loadComponents();
+        }
+    </script>
+    <!-- Load shared JavaScript FIRST (contains profile functionality) -->
+    <script src="components/header-footer.js"></script>
+    
+    <!-- Load page-specific JavaScript AFTER shared (no conflicting functions) -->
+    <script src="scripts/home-script.js"></script>
+</body>
+</html>
