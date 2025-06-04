@@ -1,0 +1,35 @@
+{
+  "env": "docker",
+  "name": "rerover",
+  "region": "singapore",
+  "type": "web",
+  "buildCommand": "mvn clean package -DskipTests",
+  "dockerfilePath": "./Dockerfile",
+  "envVars": [
+    {
+      "key": "SPRING_PROFILES_ACTIVE",
+      "value": "production"
+    },
+    {
+      "key": "SPRING_DATASOURCE_URL",
+      "fromDatabase": {
+        "name": "rerover-db",
+        "property": "connectionString"
+      }
+    },
+    {
+      "key": "SPRING_DATASOURCE_USERNAME",
+      "value": "${DB_USERNAME}"
+    },
+    {
+      "key": "SPRING_DATASOURCE_PASSWORD",
+      "value": "${DB_PASSWORD}"
+    },
+    {
+      "key": "JAVA_OPTS",
+      "value": "-Xmx512m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8"
+    }
+  ],
+  "autoDeploy": true,
+  "plan": "free"
+}
