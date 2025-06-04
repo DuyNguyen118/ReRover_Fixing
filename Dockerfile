@@ -21,7 +21,7 @@ COPY --from=build /app/target/ReRover-0.0.1-SNAPSHOT.jar app.jar
 
 # Environment variables with default values for local development
 ENV SPRING_PROFILES_ACTIVE=production
-ENV DB_HOST=localhost
+ENV DB_HOST=host.docker.internal
 ENV DB_PORT=3306
 ENV DB_NAME=rerover
 ENV DB_USERNAME=nvbduy
@@ -30,7 +30,7 @@ ENV PORT=8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s \
-  CMD mysqladmin ping -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD || exit 1
+  CMD mysql -h$DB_HOST -P$DB_PORT -u$DB_USERNAME -p$DB_PASSWORD -e "SELECT 1" || exit 1
 
 # Expose the port the app runs on
 EXPOSE $PORT
