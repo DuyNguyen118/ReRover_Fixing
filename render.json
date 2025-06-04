@@ -2,11 +2,32 @@
   "name": "rerover",
   "env": "docker",
   "region": "oregon",
+  "buildCommand": "cd ReRover && mvn clean package -DskipTests",
   "dockerfile": "./Dockerfile",
   "envVars": [
     {
       "key": "SPRING_PROFILES_ACTIVE",
       "value": "production"
+    },
+    {
+      "key": "DB_HOST",
+      "value": "rerover"
+    },
+    {
+      "key": "DB_PORT",
+      "value": "3306"
+    },
+    {
+      "key": "DB_NAME",
+      "value": "rerover"
+    },
+    {
+      "key": "DB_USERNAME",
+      "value": "nvbduy"
+    },
+    {
+      "key": "DB_PASSWORD",
+      "value": "nvbduy18"
     },
     {
       "key": "PORT",
