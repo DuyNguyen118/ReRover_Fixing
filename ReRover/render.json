@@ -2,8 +2,8 @@
   "name": "rerover",
   "env": "docker",
   "region": "oregon",
-  "buildCommand": "mvn clean package -DskipTests",
-  "dockerfile": "./Dockerfile",
+  "buildCommand": "cd ReRover && mvn clean package -DskipTests",
+  "dockerfile": "ReRover/Dockerfile",
   "envVars": [
     {
       "key": "SPRING_PROFILES_ACTIVE",
