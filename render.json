@@ -11,23 +11,38 @@
     },
     {
       "key": "DB_HOST",
-      "value": "host.docker.internal"
+      "fromDatabase": {
+        "name": "rerover-db",
+        "property": "hostname"
+      }
     },
     {
       "key": "DB_PORT",
-      "value": "3306"
+      "fromDatabase": {
+        "name": "rerover-db",
+        "property": "port"
+      }
     },
     {
       "key": "DB_NAME",
-      "value": "rerover"
+      "fromDatabase": {
+        "name": "rerover-db",
+        "property": "database"
+      }
     },
     {
       "key": "DB_USERNAME",
-      "value": "nvbduy"
+      "fromDatabase": {
+        "name": "rerover-db",
+        "property": "user"
+      }
     },
     {
       "key": "DB_PASSWORD",
-      "value": "nvbduy18"
+      "fromDatabase": {
+        "name": "rerover-db",
+        "property": "password"
+      }
     },
     {
       "key": "PORT",
