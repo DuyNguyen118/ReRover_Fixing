@@ -1,133 +1,111 @@
--- Enable UUID extension if not already enabled
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- --------------------------------------------------------
+-- Database: ReRover
+-- Purpose: Lost and Found System
+-- --------------------------------------------------------
 
--- Create enum types if they don't exist
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'item_status') THEN
-        CREATE TYPE item_status AS ENUM ('PENDING', 'MATCHED', 'RESOLVED', 'REJECTED');
-    END IF;
-END$$;
+-- Drop tables if they exist (in reverse order of foreign key dependencies)
+DROP TABLE IF EXISTS admin_actions CASCADE;
+DROP TABLE IF EXISTS item_matches CASCADE;
+DROP TABLE IF EXISTS lost_items CASCADE;
+DROP TABLE IF EXISTS found_items CASCADE;
+DROP TABLE IF EXISTS admins CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 
--- Users table
+-- Drop sequences if they exist
+DROP SEQUENCE IF EXISTS users_user_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS admins_admin_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS lost_items_lost_item_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS found_items_found_item_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS item_matches_match_id_seq CASCADE;
+DROP SEQUENCE IF EXISTS admin_actions_action_id_seq CASCADE;
+
+-- Create sequences
+CREATE SEQUENCE IF NOT EXISTS users_user_id_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS admins_admin_id_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS lost_items_lost_item_id_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS found_items_found_item_id_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS item_matches_match_id_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS admin_actions_action_id_seq START WITH 1 INCREMENT BY 1;
+
+-- Create tables
 CREATE TABLE IF NOT EXISTS users (
-    user_id SERIAL PRIMARY KEY,
+    user_id INT PRIMARY KEY DEFAULT nextval('users_user_id_seq'),
     student_id VARCHAR(20) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
     fullname VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     phone_number VARCHAR(20),
     profile_picture VARCHAR(255),
-    merit_point INTEGER DEFAULT 0,
+    password VARCHAR(255) NOT NULL,
+    merit_point INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Lost items table
+CREATE TABLE IF NOT EXISTS admins (
+    admin_id INT PRIMARY KEY DEFAULT nextval('admins_admin_id_seq'),
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    student_id VARCHAR(20) UNIQUE
+);
+
 CREATE TABLE IF NOT EXISTS lost_items (
-    lost_item_id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    lost_item_id INT PRIMARY KEY DEFAULT nextval('lost_items_lost_item_id_seq'),
+    user_id INT NOT NULL,
     title VARCHAR(150) NOT NULL,
     description TEXT,
-    type VARCHAR(50) NOT NULL,
-    category VARCHAR(50) NOT NULL,
+    category VARCHAR(50),
+    type VARCHAR(50),
     location VARCHAR(100),
     lost_date DATE,
     image_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status item_status DEFAULT 'PENDING'
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
--- Found items table
 CREATE TABLE IF NOT EXISTS found_items (
-    found_item_id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    found_item_id INT PRIMARY KEY DEFAULT nextval('found_items_found_item_id_seq'),
+    user_id INT NOT NULL,
     title VARCHAR(150) NOT NULL,
     description TEXT,
-    type VARCHAR(50) NOT NULL,
-    category VARCHAR(50) NOT NULL,
+    category VARCHAR(50),
+    type VARCHAR(50),
     location VARCHAR(100),
     found_date DATE,
     image_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status item_status DEFAULT 'PENDING'
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
--- Item matches table
 CREATE TABLE IF NOT EXISTS item_matches (
-    match_id SERIAL PRIMARY KEY,
-    lost_item_id INTEGER REFERENCES lost_items(lost_item_id) ON DELETE CASCADE,
-    found_item_id INTEGER REFERENCES found_items(found_item_id) ON DELETE CASCADE,
-    matched_by_user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+    match_id INT PRIMARY KEY DEFAULT nextval('item_matches_match_id_seq'),
+    lost_item_id INT NOT NULL,
+    found_item_id INT NOT NULL,
+    matched_by_user INT,
+    lost_item_user_confirmed BOOLEAN DEFAULT FALSE,
+    found_item_user_confirmed BOOLEAN DEFAULT FALSE,
+    admin_approved BOOLEAN DEFAULT FALSE,
+    status VARCHAR(50) DEFAULT 'pending',
     match_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status item_status DEFAULT 'PENDING',
-    admin_notes TEXT,
-    UNIQUE(lost_item_id, found_item_id)
+    FOREIGN KEY (lost_item_id) REFERENCES lost_items(lost_item_id) ON DELETE CASCADE,
+    FOREIGN KEY (found_item_id) REFERENCES found_items(found_item_id) ON DELETE CASCADE,
+    FOREIGN KEY (matched_by_user) REFERENCES users(user_id) ON DELETE SET NULL
 );
 
--- Admin actions table
 CREATE TABLE IF NOT EXISTS admin_actions (
-    action_id SERIAL PRIMARY KEY,
-    admin_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
-    action_type VARCHAR(50) NOT NULL,
-    target_type VARCHAR(50) NOT NULL,
-    target_id INTEGER NOT NULL,
-    action_details TEXT,
-    action_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    action_id INT PRIMARY KEY DEFAULT nextval('admin_actions_action_id_seq'),
+    admin_id INT NOT NULL,
+    match_id INT NOT NULL,
+    action_type VARCHAR(50),
+    notes TEXT,
+    action_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (admin_id) REFERENCES admins(admin_id),
+    FOREIGN KEY (match_id) REFERENCES item_matches(match_id)
 );
 
--- Create indexes for better performance
-CREATE INDEX IF NOT EXISTS idx_lost_items_user_id ON lost_items(user_id);
-CREATE INDEX IF NOT EXISTS idx_found_items_user_id ON found_items(user_id);
-CREATE INDEX IF NOT EXISTS idx_item_matches_lost_id ON item_matches(lost_item_id);
-CREATE INDEX IF NOT EXISTS idx_item_matches_found_id ON item_matches(found_item_id);
-CREATE INDEX IF NOT EXISTS idx_item_matches_matched_by ON item_matches(matched_by_user_id);
-CREATE INDEX IF NOT EXISTS idx_admin_actions_admin_id ON admin_actions(admin_id);
-
--- Create a function to update the updated_at column
-CREATE OR REPLACE FUNCTION update_modified_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Add updated_at column to tables if they don't exist
-DO $$
-BEGIN
-    -- For users table
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
-                  WHERE table_name = 'users' AND column_name = 'updated_at') THEN
-        ALTER TABLE users ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-        CREATE TRIGGER update_users_modtime
-            BEFORE UPDATE ON users
-            FOR EACH ROW EXECUTE FUNCTION update_modified_column();
-    END IF;
-
-    -- For lost_items table
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
-                  WHERE table_name = 'lost_items' AND column_name = 'updated_at') THEN
-        ALTER TABLE lost_items ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-        CREATE TRIGGER update_lost_items_modtime
-            BEFORE UPDATE ON lost_items
-            FOR EACH ROW EXECUTE FUNCTION update_modified_column();
-    END IF;
-
-    -- For found_items table
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
-                  WHERE table_name = 'found_items' AND column_name = 'updated_at') THEN
-        ALTER TABLE found_items ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-        CREATE TRIGGER update_found_items_modtime
-            BEFORE UPDATE ON found_items
-            FOR EACH ROW EXECUTE FUNCTION update_modified_column();
-    END IF;
-
-    -- For item_matches table
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
-                  WHERE table_name = 'item_matches' AND column_name = 'updated_at') THEN
-        ALTER TABLE item_matches ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-        CREATE TRIGGER update_item_matches_modtime
-            BEFORE UPDATE ON item_matches
-            FOR EACH ROW EXECUTE FUNCTION update_modified_column();
-    END IF;
-END $$;
+-- Set ownership of sequences to their respective tables
+ALTER SEQUENCE users_user_id_seq OWNED BY users.user_id;
+ALTER SEQUENCE admins_admin_id_seq OWNED BY admins.admin_id;
+ALTER SEQUENCE lost_items_lost_item_id_seq OWNED BY lost_items.lost_item_id;
+ALTER SEQUENCE found_items_found_item_id_seq OWNED BY found_items.found_item_id;
+ALTER SEQUENCE item_matches_match_id_seq OWNED BY item_matches.match_id;
+ALTER SEQUENCE admin_actions_action_id_seq OWNED BY admin_actions.action_id;
